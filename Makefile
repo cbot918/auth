@@ -20,6 +20,9 @@ MYSQL_PASS = 12345
 mysql-init:
 	docker run --name $(MYSQL_NAME) -e MYSQL_ROOT_PASSWORD=$(MYSQL_PASS) -d -p $(MYSQL_PORT):3306 mysql
 
+mysql-start:
+	docker container start $(MYSQL_NAME)
+
 mysql-client:
 	docker exec -it $(MYSQL_NAME) bash
 
