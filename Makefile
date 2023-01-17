@@ -35,9 +35,12 @@ db-migrate:
 	mkdir -p db/migration
 	migrate create -ext sql -dir db/migration -seq init_schema
 
-# opera
-db-up:
-	docker start $(MYSQL_NAME)
+migrateup:
+	migrate -path db/migration -database "mysql://root:12345@localhost:8201/practice?sslmode=disable" -verbose up
+
+migratedown:
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+
 	
 	
 
