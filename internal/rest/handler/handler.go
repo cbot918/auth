@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"auth/internal/db"
 	"auth/internal/util"
 	"fmt"
 	"io/ioutil"
@@ -23,10 +24,13 @@ import (
 // 	c.String(http.StatusOK, "%s %s", name, email)
 // }
 
-type Handler struct{}
+type Handler struct {
+	db *db.DB
+}
 
-func NewHandler() *Handler {
+func NewHandler(db *db.DB) *Handler {
 	obj := new(Handler)
+	obj.db = db
 	return obj
 }
 
@@ -42,11 +46,17 @@ func (h *Handler) Script(c *gin.Context) {
 
 func (h *Handler) Signup(c *gin.Context) {
 
+	// operate db
+	h.db.CreateRow("yale", "yale918", "12345")
+	// h.db.ReadTable()
+	h.db.ReadRow(1)
+
 	message, err := ioutil.ReadAll(c.Request.Body)
 	util.Checke(err, "read request body failed")
 
 	c.String(http.StatusOK, string(message))
-	util.Logg(string(message))
+	// util.Logg(string(message))
+
 }
 
 func (h *Handler) Login(c *gin.Context) {

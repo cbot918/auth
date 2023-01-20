@@ -12,8 +12,9 @@ run: $(DEVPATH)
 	go build .
 	./auth.exe
 
-## database
-# instance
+# database
+## instance
+### MYSQL
 MYSQL_NAME = cbot-mysql
 MYSQL_PASS = 12345
 
@@ -30,16 +31,18 @@ mysql-remove:
 	docker stop cbot-mysql
 	docker container rm cbot-mysql
 
+
+
 # migrate
 db-migrate:
 	mkdir -p db/migration
 	migrate create -ext sql -dir db/migration -seq init_schema
 
 migrateup:
-	migrate -path db/migration -database "mysql://root:12345@localhost:8201/practice?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://postgres:12345@localhost:8001/auth?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://postgres:12345@localhost:8001/auth?sslmode=disable" -verbose down
 
 	
 	

@@ -1,16 +1,19 @@
 package rest
 
 import (
+	"auth/internal/db"
 	"auth/internal/rest/handler"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Route struct {
+	db *db.DB
 }
 
-func NewRoute() *Route {
+func NewRoute(db *db.DB) *Route {
 	r := new(Route)
+	r.db = db
 	return r
 }
 
@@ -18,7 +21,7 @@ func (r *Route) RegistRoute(router *gin.Engine) *gin.Engine {
 	// router.GET("/api/auth", h.Handle)
 	// router.GET("/api/auth/:name", h.Handle2)
 
-	h := handler.NewHandler()
+	h := handler.NewHandler(r.db)
 
 	// ping
 	router.GET("/ping", h.Ping)
